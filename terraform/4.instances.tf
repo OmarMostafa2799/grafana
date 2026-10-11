@@ -1,33 +1,39 @@
 
-resource "aws_instance" "public-ec2" {
+resource "aws_instance" "grafana" {
   ami           = "ami-0056d98d3e05cdbd9"
-  instance_type = "t3.small"
+  instance_type = "t3.medium"
   subnet_id     = aws_subnet.public-subnet.id
-  security_groups = [aws_security_group.sg.id]
+  security_groups = [aws_security_group.grafana.id]
   availability_zone = "eu-west-1a"
   associate_public_ip_address = true
-  user_data = "${file("script.sh")}"
+ #user_data = "${file("install-grafana.sh")}"
+ #user_data_replace_on_change = true
   key_name = aws_key_pair.my-key.key_name
 
   tags = {
-    Name = "PublicEC2Instance"
+    Name = "grafana-server"
   }
 }
 
 
-resource "aws_instance" "private-ec2" {
+resource "aws_instance" "prometheus" {
   ami           = "ami-0056d98d3e05cdbd9"
-  instance_type = "t3.small"
-  subnet_id     = aws_subnet.private-subnet.id
-  security_groups = [aws_security_group.sg.id]
+  instance_type = "t3.medium"
+  subnet_id     = aws_subnet.public-subnet.id
+  security_groups = [aws_security_group.prometheus.id]
   availability_zone = "eu-west-1a"
-  user_data = "${file("script2.sh")}"
+  associate_public_ip_address = true
+ #user_data = "${file("install-prometheus.sh")}"
+ #user_data_replace_on_change = true
   key_name = aws_key_pair.my-key.key_name
 
   tags = {
-    Name = "PrivateEC2Instance"
+    Name = "grafana-server"
   }
 }
+
+
+
 
 
 resource "aws_key_pair" "my-key" {
@@ -41,14 +47,16 @@ resource "aws_key_pair" "my-key" {
 
 # Generate inventory file for Ansible
 
-# resource "local_file" "inventory" {
-#   filename = "/ansible/inventory"
-#   content  = <<EOT
-# [private]
-# ${aws_instance.private-ec2.private_ip}
-#
-# [public]
-# ${aws_instance.public-ec2.public_ip}
-# EOT
-# }
+ resource "local_file" "inventory" {
+   filename = "../ansible/inventory"
+   content  = <<EOT
+ [grafana]
+ ${aws_instance.grafana.public_ip}
+ ${aws_instance.grafana.private_ip}
+
+ [prometheus]
+ ${aws_instance.prometheus.public_ip}
+ ${aws_instance.prometheus.private_ip}
+ EOT
+ }
 
