@@ -1,1 +1,31 @@
 
+#!/bin/bash
+set -euxo pipefail
+
+dnf install -y wget
+
+# Add the official Grafana RPM repository
+wget -q -O /tmp/grafana.gpg \
+  https://rpm.grafana.com/gpg.key
+rpm --import /tmp/grafana.gpg
+
+cat > /etc/yum.repos.d/grafana.repo <<'EOF'
+[grafana]
+name=Grafana
+baseurl=https://rpm.grafana.com
+enabled=1
+gpgcheck=1
+repo_gpgcheck=1
+gpgkey=https://rpm.grafana.com/gpg.key
+sslverify=1
+EOF
+
+# Install Grafana OSS
+dnf install -y grafana
+
+# Enable and start Grafana
+systemctl enable --now grafana-server
+
+# Verify service
+systemctl is-active grafana-server
+
