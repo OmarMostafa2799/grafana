@@ -73,5 +73,5 @@ systemctl enable --now prometheus
 
 systemctl is-active prometheus
 
-#check for running 
-#systemctl status prometheus
+echo "check for running"
+echo "systemctl status prometheus"
