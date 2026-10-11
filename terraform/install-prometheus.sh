@@ -75,3 +75,4 @@ systemctl is-active prometheus
 
 echo "check for running"
 echo "systemctl status prometheus"
+echo "curl http://localhost:9090"
