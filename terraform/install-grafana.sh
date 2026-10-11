@@ -32,5 +32,6 @@ systemctl is-active grafana-server
 echo "check for running"
 echo "systemctl status grafana"
 echo "curl http://localhost:3000"
+echo "http://GRAFANA_PUBLIC_IP:3000"
 
 
