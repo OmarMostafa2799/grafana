@@ -29,3 +29,6 @@ systemctl enable --now grafana-server
 # Verify service
 systemctl is-active grafana-server
 
+#check for running 
+#systemctl status grafana.server
+
