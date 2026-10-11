@@ -28,7 +28,7 @@ resource "aws_instance" "prometheus" {
   key_name = aws_key_pair.my-key.key_name
 
   tags = {
-    Name = "grafana-server"
+    Name = "prometheus-server"
   }
 }
 
