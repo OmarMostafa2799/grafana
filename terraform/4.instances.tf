@@ -6,8 +6,8 @@ resource "aws_instance" "grafana" {
   security_groups = [aws_security_group.grafana.id]
   availability_zone = "eu-west-1a"
   associate_public_ip_address = true
- #user_data = "${file("install-grafana.sh")}"
- #user_data_replace_on_change = true
+  user_data = "${file("install-grafana.sh")}"
+  user_data_replace_on_change = true
   key_name = aws_key_pair.my-key.key_name
 
   tags = {
@@ -23,8 +23,8 @@ resource "aws_instance" "prometheus" {
   security_groups = [aws_security_group.prometheus.id]
   availability_zone = "eu-west-1a"
   associate_public_ip_address = true
- #user_data = "${file("install-prometheus.sh")}"
- #user_data_replace_on_change = true
+  user_data = "${file("install-prometheus.sh")}"
+  user_data_replace_on_change = true
   key_name = aws_key_pair.my-key.key_name
 
   tags = {
