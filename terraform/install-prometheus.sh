@@ -72,3 +72,6 @@ systemctl daemon-reload
 systemctl enable --now prometheus
 
 systemctl is-active prometheus
+
+#check for running 
+#systemctl status prometheus
