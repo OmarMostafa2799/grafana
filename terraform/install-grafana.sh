@@ -29,6 +29,8 @@ systemctl enable --now grafana-server
 # Verify service
 systemctl is-active grafana-server
 
-#check for running 
-#systemctl status grafana.server
+echo "check for running"
+echo "systemctl status grafana"
+echo "curl http://localhost:3000"
+
 
